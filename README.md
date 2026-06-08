@@ -1,48 +1,58 @@
 # Automated Outreach Pipeline
 
-An end-to-end cold outreach automation system built using Python, Prospeo, and Brevo.
+An end-to-end outreach automation system built using Python and Brevo.
 
-The pipeline automates lead discovery, enrichment, personalized email generation, delivery, and activity logging with minimal human intervention.
+The pipeline accepts a company domain as input, discovers matching leads, generates personalized outreach emails, provides a safety approval step, delivers emails through Brevo, and logs all outreach activity automatically.
 
 ---
 
 ## Features
 
+### Company Domain Input
+
+* User enters a target company domain
+* Domain is mapped to matching company leads
+* Supports organization-specific outreach workflows
+
 ### Lead Discovery
-- Search and retrieve professional contacts
-- Company-based lead sourcing
-- CSV lead storage
 
-### Contact Enrichment
-- Retrieve verified work emails
-- Capture job titles and company information
-- Store LinkedIn profile references
+* Retrieves leads from a structured lead dataset
+* Company-based filtering
+* CSV-powered lead management
 
-### Personalized Outreach
-- Generate personalized outreach emails
-- Dynamic content based on lead information
-- HTML email support
+### AI Email Generation
+
+* Generates personalized outreach emails
+* Uses lead information such as name, title, and company
+* Produces HTML-ready email content
+
+### Safety Approval Workflow
+
+* Human confirmation required before sending
+* Prevents accidental outreach
+* Allows review of generated campaigns
 
 ### Email Delivery
-- Integration with Brevo Email API
-- Real email delivery support
-- Safety confirmation before sending
 
-### Logging
-- Email activity logging
-- Timestamped records
-- CSV export
+* Integration with Brevo Email API
+* Automated email dispatch
+* Delivery status monitoring
+
+### Activity Logging
+
+* Timestamped outreach records
+* Success and failure tracking
+* CSV-based audit trail
 
 ---
 
 ## Tech Stack
 
-- Python
-- Requests
-- Python Dotenv
-- Prospeo API
-- Brevo API
-- CSV Processing
+* Python
+* Requests
+* Python Dotenv
+* Brevo API
+* CSV Processing
 
 ---
 
@@ -65,6 +75,7 @@ automated-outreach-pipeline/
 
 ├── .env
 ├── .gitignore
+├── email_log.csv
 ├── main.py
 ├── requirements.txt
 └── README.md
@@ -75,40 +86,29 @@ automated-outreach-pipeline/
 ## Pipeline Flow
 
 ```text
-Seed Company
-      ↓
+User Input (Company Domain)
+            ↓
 Lead Discovery
-      ↓
-Lead Enrichment
-      ↓
-Email Generation
-      ↓
-Safety Check
-      ↓
-Email Delivery
-      ↓
+            ↓
+AI Email Generation
+            ↓
+Safety Approval
+            ↓
+Email Delivery (Brevo)
+            ↓
 Activity Logging
 ```
 
 ---
 
-## Safety Features
-
-Before any email is sent:
-
-- User confirmation required
-- Test email mode supported
-- Activity logging enabled
-- Controlled lead processing limits
-
----
-
-## Sample Output
+## Example Workflow
 
 ```text
-🚀 Automated Outreach Pipeline
+Enter company domain:
+microsoft.com
 
-Loaded 25 leads from CSV
+🔍 Lead Discovery Complete: 25 leads found
+
 Processing first 3 leads
 
 ✅ Generated email for Maya Subhadra
@@ -119,16 +119,32 @@ Processing first 3 leads
 SAFETY CHECK
 ==============================
 
-Ready to send 3 emails
+Ready to send 3 email(s)
+
+Destination: work.sayali1908@gmail.com
+
+Continue? (y/n): y
 
 Sending...
 
+Brevo Status: 201
 ✅ Email sent for Maya Subhadra
 ✅ Email sent for Tyler Groth
 ✅ Email sent for Ari Hevosmaa
 
 ✅ Pipeline Completed Successfully
 ```
+
+---
+
+## Safety Features
+
+Before any email is delivered:
+
+* Manual user confirmation required
+* Controlled lead processing limit
+* Delivery status verification
+* Automated activity logging
 
 ---
 
@@ -149,13 +165,13 @@ pip install -r requirements.txt
 Create a `.env` file:
 
 ```env
-PROSPEO_API_KEY=your_key
 BREVO_API_KEY=your_key
+PROSPEO_API_KEY=your_key
 EAZYREACH_CLIENT_ID=your_id
 EAZYREACH_CLIENT_SECRET=your_secret
 ```
 
-Run:
+Run the application:
 
 ```bash
 python main.py
@@ -163,13 +179,30 @@ python main.py
 
 ---
 
-## Future Improvements
+## Current Prototype Scope
 
-- OpenAI-powered email personalization
-- Ocean.io company discovery integration
-- Dashboard for campaign analytics
-- Email open and click tracking
-- Retry and failure recovery mechanisms
+The current implementation demonstrates:
+
+* Company-domain-based workflow initiation
+* Lead discovery from a curated dataset
+* AI-powered personalized outreach generation
+* Approval-based email delivery
+* Brevo integration
+* Automated logging and tracking
+
+For demonstration purposes, the included dataset contains Microsoft leads.
+
+---
+
+## Future Enhancements
+
+* Real-time lead discovery using Prospeo
+* Ocean.io company intelligence integration
+* EazyReach enrichment workflows
+* Campaign analytics dashboard
+* Email open and click tracking
+* Retry and recovery mechanisms
+* Domain-authenticated sender infrastructure
 
 ---
 
