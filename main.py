@@ -12,13 +12,14 @@ CSV_FILE = "data/leads.csv"
 
 TEST_EMAIL = "work.sayali1908@gmail.com"
 
-MAX_LEADS = 1
+MAX_LEADS = 3
+
 
 # ==========================
-# LOAD LEADS
+# LOAD LEADS BY COMPANY
 # ==========================
 
-def load_leads():
+def load_leads(company_name):
 
     leads = []
 
@@ -31,7 +32,13 @@ def load_leads():
         reader = csv.DictReader(file)
 
         for row in reader:
-            leads.append(row)
+
+            if (
+                row["company"].lower()
+                ==
+                company_name.lower()
+            ):
+                leads.append(row)
 
     return leads
 
@@ -44,13 +51,32 @@ def run_pipeline():
 
     print("\n🚀 Automated Outreach Pipeline\n")
 
-    leads = load_leads()
+    domain = input(
+        "Enter company domain: "
+    ).strip().lower()
 
-    print(f"Loaded {len(leads)} leads from CSV")
+    company_name = domain.split(".")[0]
+
+    leads = load_leads(company_name)
+
+    if not leads:
+
+        print(
+            f"\n❌ No leads found for {company_name}"
+        )
+        return
+
+    print(
+        f"\n🔍 Lead Discovery Complete: "
+        f"{len(leads)} leads found"
+    )
 
     selected_leads = leads[:MAX_LEADS]
 
-    print(f"Processing first {len(selected_leads)} leads\n")
+    print(
+        f"Processing first "
+        f"{len(selected_leads)} leads\n"
+    )
 
     generated_emails = []
 
@@ -73,7 +99,9 @@ def run_pipeline():
             "body": email_body
         })
 
-        print(f"✅ Generated email for {name}")
+        print(
+            f"✅ Generated email for {name}"
+        )
 
     print("\n==============================")
     print("SAFETY CHECK")
@@ -82,6 +110,9 @@ def run_pipeline():
     print(
         f"\nReady to send "
         f"{len(generated_emails)} email(s)"
+    )
+
+    print(
         f"\nDestination: {TEST_EMAIL}"
     )
 
@@ -132,7 +163,9 @@ def run_pipeline():
                 "FAILED"
             )
 
-    print("\n✅ Pipeline Completed Successfully\n")
+    print(
+        "\n✅ Pipeline Completed Successfully\n"
+    )
 
 
 if __name__ == "__main__":
